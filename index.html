@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Elon Musk: quanto è troppo?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Ottimizzazione background per mobile */
+        .dot-grid {
+            background-image: radial-gradient(circle, #ef4444 1.5px, transparent 1.5px);
+            background-size: 8px 8px;
+            width: 100%;
+            will-change: transform; /* Hint al browser per ottimizzare il rendering durante lo scroll */
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Stile Marcatori */
+        .scroll-marker {
+            position: absolute;
+            width: 100%;
+            border-top: 1px dashed rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+            z-index: 10;
+        }
+        /* Label sticky che rimangono visibili per un po' */
+        .scroll-marker-label {
+            position: sticky;
+            top: 160px; /* Posizione sotto l'header */
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            padding: 12px 16px;
+            border-radius: 0 12px 12px 0;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid #ef4444;
+            margin-top: -20px;
+            display: inline-block;
+            max-width: 85%;
+            pointer-events: auto; /* Rende cliccabili i link dentro */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        /* Classe per nascondere label quando si sovrappongono troppo o escono */
+        .marker-passed {
+            opacity: 0.4;
+            transform: scale(0.95);
+        }
+        .external-link-icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 4px;
+            opacity: 0.6;
+        }
+        .external-link-icon:hover { opacity: 1; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans overflow-x-hidden">
+
+    <!-- Header Fisso / Progress Bar -->
+    <div class="fixed top-0 left-0 w-full bg-slate-900/95 backdrop-blur-md z-50 border-b border-slate-800 p-4 transition-all duration-300 shadow-2xl" id="header">
+        <div class="flex justify-between items-center">
+            <!-- TITOLO AGGIORNATO -->
+            <h1 class="text-sm md:text-lg font-bold text-white truncate mr-4"><span class="text-red-500">Elon Musk:</span> quanto è troppo?</h1>
+            <span id="progress-text" class="text-sm font-mono text-slate-300 min-w-[50px] text-right">0%</span>
+        </div>
+        <div class="w-full bg-slate-800 h-1 mt-3 rounded-full overflow-hidden">
+            <div id="progress-bar" class="bg-gradient-to-r from-red-600 to-orange-500 h-full w-0 transition-all duration-150 ease-out"></div>
+        </div>
+        <div id="current-value-container" class="flex justify-between text-xs mt-2 text-slate-400 opacity-0 transition-opacity duration-500">
+            <span>Stai vedendo:</span>
+            <span class="font-mono text-white"><span id="value-counter" class="text-red-400 font-bold text-base">0</span> Miliardi $</span>
+        </div>
+    </div>
+
+    <main class="pt-28 pb-20 px-4 md:px-0 md:max-w-2xl md:mx-auto">
+
+        <!-- Sezione Intro -->
+        <section class="min-h-[85vh] flex flex-col justify-center items-start space-y-8 mb-32">
+            <div class="space-y-2">
+                <span class="text-red-500 font-mono uppercase tracking-widest font-bold text-sm">Una storia in dati</span>
+                <h2 class="text-5xl md:text-7xl font-black tracking-tight leading-none text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-500">
+                    1000 Miliardi<br>
+                    di Dollari.
+                </h2>
+            </div>
+            <p class="text-xl text-slate-300 leading-relaxed max-w-prose">
+                È il valore record del pacchetto retributivo approvato dagli azionisti Tesla per <strong>Elon Musk</strong>.
+            </p>
+            
+            <div class="w-full bg-slate-900/50 p-6 rounded-2xl border border-slate-800/50 backdrop-blur-sm">
+                <h3 class="text-white font-bold mb-3 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    In breve:
+                </h3>
+                <ul class="space-y-3 text-slate-400 text-sm md:text-base">
+                    <li class="flex items-start">
+                        <span class="text-red-500 mr-2">•</span>
+                        Calcolato su un valore potenziale di Tesla di 8.500 miliardi.
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-red-500 mr-2">•</span>
+                        Musk otterrà circa il 25% totale delle azioni dell'azienda.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="self-center flex flex-col items-center animate-bounce mt-12 opacity-50">
+                <span class="text-xs uppercase tracking-widest mb-2">Scorri per iniziare</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </div>
+        </section>
+
+        <!-- La Legenda -->
+        <section class="my-32 p-8 bg-slate-900 rounded-3xl border border-slate-800 text-center shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent pointer-events-none"></div>
+            <h3 class="text-2xl font-bold mb-6 relative">L'Unità di Misura</h3>
+            
+            <div class="flex justify-center items-center py-12 relative">
+                <div class="relative">
+                    <div class="w-4 h-4 bg-red-500 rounded-full animate-ping absolute opacity-50"></div>
+                    <div class="w-4 h-4 bg-red-500 rounded-full relative z-10 shadow-[0_0_30px_rgba(239,68,68,0.6)]"></div>
+                </div>
+            </div>
+            <p class="text-sm text-red-400 uppercase tracking-widest font-bold mb-6 relative">1 Puntino = 1 Milione di $</p>
+            
+            <div class="text-left bg-slate-950/80 p-5 rounded-xl border border-slate-800/50 relative backdrop-blur-sm">
+                <p class="text-slate-300 leading-relaxed mb-3">
+                    <strong class="text-white">Reality Check:</strong> Un lavoratore medio occidentale guadagna circa <span class="text-white underline decoration-red-500/50">2.5 milioni $</span> in tutta la sua vita (40 anni di lavoro).
+                </p>
+                <p class="text-white font-semibold">
+                    Tutta la tua vita lavorativa = 2 puntini e mezzo.
+                </p>
+            </div>
+        </section>
+
+        <!-- Transizione -->
+        <section class="text-center my-40 space-y-6">
+            <p class="text-xl md:text-3xl font-bold text-slate-400">Sei pronto per i</p>
+            <h2 class="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-orange-500 to-red-500 animate-pulse">
+                1000<br>Miliardi?
+            </h2>
+            <p class="text-slate-500 max-w-md mx-auto px-6 py-2 bg-slate-900 rounded-full text-sm">
+                (Il viaggio sarà lungo. Continua a scorrere.)
+            </p>
+        </section>
+
+        <!-- Area di Scroll dei 1000 Miliardi -->
+        <section id="trillion-area" class="relative border-t-2 border-red-600/50 pt-0 mt-10">
+            
+            <!-- Etichetta Inizio (scompare allo scroll) -->
+            <div id="start-label" class="sticky top-32 text-center z-30 transition-all duration-500 pointer-events-none">
+                 <span class="bg-red-600 text-white px-4 py-1 rounded-full font-bold uppercase tracking-widest text-xs shadow-lg">
+                    PARTENZA: 0 $
+                </span>
+            </div>
+
+            <!-- Container Griglia e Marker -->
+            <div class="relative">
+                <!-- Griglia dei puntini -->
+                <div id="massive-grid" class="dot-grid w-full overflow-hidden opacity-70"></div>
+
+                <!-- ================= MARKERS ================= -->
+                <!-- DATI E LINK VERIFICATI E AGGIORNATI -->
+
+                <!-- Marker 1: Education Gap (UNESCO ~97B) -> 9.7% -->
+                <div class="scroll-marker" style="top: 9.7%">
+                    <div class="scroll-marker-label border-l-orange-500">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-orange-400 font-bold text-lg">~97 Miliardi $</span>
+                             <a href="https://www.unesco.org/en/articles/annual-financing-gap-education-almost-100-billion" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white" title="Fonte: UNESCO">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 external-link-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-200 leading-snug">
+                            Deficit annuale per garantire istruzione universale nei paesi a basso reddito (UNESCO).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Marker 2: PIL Kenya (~115B) -> 11.5% -->
+                <div class="scroll-marker" style="top: 11.5%">
+                    <div class="scroll-marker-label border-l-emerald-500">
+                        <div class="flex items-center justify-between mb-1">
+                             <span class="text-emerald-400 font-bold text-lg">115 Miliardi $</span>
+                             <a href="https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=KE" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white" title="Fonte: World Bank">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 external-link-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-200 leading-snug">
+                            PIL del <strong>Kenya</strong> (2023). Tutta l'economia di una nazione di 54 milioni di persone.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Marker 3: Aiuti Globali allo Sviluppo (OECD ~223B) -> 22.3% -->
+                <div class="scroll-marker" style="top: 22.3%">
+                    <div class="scroll-marker-label border-l-blue-500">
+                        <div class="flex items-center justify-between mb-1">
+                             <span class="text-blue-400 font-bold text-lg">~223 Miliardi $</span>
+                             <a href="https://www.oecd.org/en/events/2025/01/official-development-assistance-oda-2023-final-figures.html" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white" title="Fonte: OECD (Dati 2023)">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 external-link-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-200 leading-snug">
+                            Totale aiuti ufficiali allo sviluppo donati da tutti i paesi avanzati nel 2023.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- MARCATORE PERCENTUALE 25% -->
+                <div class="absolute w-full text-center pointer-events-none opacity-30" style="top: 25%">
+                    <span class="text-6xl font-black text-slate-700">25%</span>
+                </div>
+
+
+                <!-- Marker 4: PIL Portogallo (~287B) -> 28.7% -->
+                <div class="scroll-marker" style="top: 28.7%">
+                    <div class="scroll-marker-label border-l-yellow-500">
+                        <div class="flex items-center justify-between mb-1">
+                             <span class="text-yellow-400 font-bold text-lg">~287 Miliardi $</span>
+                             <a href="https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=PT" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white" title="Fonte: World Bank">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 external-link-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-200 leading-snug">
+                            PIL del <strong>Portogallo</strong> (2023). Un intero stato membro dell'Unione Europea.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- MARCATORE PERCENTUALE 50% -->
+                <div class="absolute w-full text-center pointer-events-none opacity-30" style="top: 50%">
+                    <span class="text-6xl font-black text-slate-700">50%</span>
+                </div>
+
+                <!-- Marker 5: PIL Thailandia (~514B) -> 51.4% -->
+                <div class="scroll-marker" style="top: 51.4%">
+                    <div class="scroll-marker-label border-l-purple-500">
+                        <div class="flex items-center justify-between mb-1">
+                             <span class="text-purple-400 font-bold text-lg">~514 Miliardi $</span>
+                             <a href="https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=TH" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white" title="Fonte: World Bank">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 external-link-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-200 leading-snug">
+                            PIL della <strong>Thailandia</strong> (2023). Una delle maggiori economie del sud-est asiatico.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- MARCATORE PERCENTUALE 75% -->
+                <div class="absolute w-full text-center pointer-events-none opacity-30" style="top: 75%">
+                    <span class="text-6xl font-black text-slate-700">75%</span>
+                </div>
+
+                <!-- Marker 6: Svizzera (~885B) -> 88.5% -->
+                <div class="scroll-marker" style="top: 88.5%">
+                    <div class="scroll-marker-label border-l-white">
+                        <div class="flex items-center justify-between mb-1">
+                             <span class="text-white font-bold text-lg">885 Miliardi $</span>
+                             <a href="https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=CH" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white" title="Fonte: World Bank">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 external-link-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-200 leading-snug">
+                            PIL della <strong>Svizzera</strong> (2023). Una delle nazioni più ricche al mondo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fine Scroll -->
+            <div class="relative z-20 bg-gradient-to-b from-transparent via-slate-950 to-slate-950 pt-32 -mt-1">
+                <div class="text-center py-16 border-t-2 border-red-600/30 bg-slate-950 relative">
+                    <!-- Glow effect finale -->
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full md:w-1/2 h-32 bg-red-600/20 blur-[100px] pointer-events-none"></div>
+
+                     <h3 class="text-4xl md:text-7xl font-black text-white mb-6 relative z-10">1000 MILIARDI $</h3>
+                     <p class="text-xl md:text-2xl text-red-500 font-bold mb-12 relative z-10">Destinazione raggiunta.</p>
+                     
+                     <div class="max-w-lg mx-auto text-left bg-slate-900/80 backdrop-blur-md p-8 rounded-2xl border border-slate-800 shadow-2xl mx-4 relative z-10">
+                        <h4 class="text-white font-bold mb-4 text-lg flex items-center">
+                            <span class="bg-red-500 w-2 h-8 mr-3 rounded-full"></span>
+                            Ultimo confronto:
+                        </h4>
+                        <!-- DATO FINALE AGGIORNATO -->
+                        <p class="text-slate-300 mb-6 leading-relaxed">
+                            Sei arrivato quasi al livello dell'<strong>Arabia Saudita</strong> (PIL ~1.106 Miliardi $). 
+                            <br><br>
+                            Il pacchetto di Musk vale quasi quanto l'intera produzione economica annuale di una potenza petrolifera del G20.
+                        </p>
+                        
+                        <div class="mt-8 pt-8 border-t border-slate-800 text-center">
+                            <button 
+                                onclick="window.scrollTo({top: 0, behavior: 'smooth'});" 
+                                class="group relative inline-flex items-center justify-center px-8 py-3 font-bold text-white transition-all duration-200 bg-red-600 font-mono rounded-full hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 ring-offset-slate-900">
+                                <span>TORNA ALL'INIZIO</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                                </svg>
+                            </button>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const grid = document.getElementById('massive-grid');
+        const trillionArea = document.getElementById('trillion-area');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const currentValueContainer = document.getElementById('current-value-container');
+        const valueCounter = document.getElementById('value-counter');
+        const startLabel = document.getElementById('start-label');
+
+        // Target: 1000 Miliardi. 1 puntino = 1 Milione. 
+        // 1000 Miliardi / 1 Milione = 1.000.000 di puntini.
+        const DOTS_TARGET = 1000000; 
+        const DOT_CELL_SIZE = 8; 
+
+        function setGridHeight() {
+            const gridWidth = grid.clientWidth;
+            if (gridWidth === 0) return;
+            const dotsPerRow = Math.floor(gridWidth / DOT_CELL_SIZE);
+            const rowsNeeded = Math.ceil(DOTS_TARGET / dotsPerRow);
+            grid.style.height = `${rowsNeeded * DOT_CELL_SIZE}px`;
+        }
+
+        window.addEventListener('load', setGridHeight);
+        window.addEventListener('resize', setGridHeight);
+
+        let isScrolling = false;
+        function onScroll() {
+            const areaTop = trillionArea.offsetTop;
+            const areaHeight = grid.offsetHeight;
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
+            
+            // Iniziamo a contare quando l'area entra a 1/3 dello schermo per un feeling migliore
+            const startOffset = windowHeight / 3;
+            let scrolledInArea = scrollY - areaTop + startOffset;
+
+            // Gestione visibilità label INIZIO e contatore
+            if (scrolledInArea <= 0) {
+                scrolledInArea = 0;
+                currentValueContainer.classList.remove('opacity-100');
+                currentValueContainer.classList.add('opacity-0');
+                startLabel.classList.remove('opacity-0', '-translate-y-10');
+            } else {
+                currentValueContainer.classList.remove('opacity-0');
+                currentValueContainer.classList.add('opacity-100');
+                // Nascondi la label di inizio dopo un po' di scroll
+                if (scrolledInArea > 100) {
+                    startLabel.classList.add('opacity-0', '-translate-y-10');
+                } else {
+                    startLabel.classList.remove('opacity-0', '-translate-y-10');
+                }
+            }
+
+            // Clamp valore scrollato all'altezza massima dell'area
+            if (scrolledInArea > areaHeight) scrolledInArea = areaHeight;
+
+            let percentage = (scrolledInArea / areaHeight) * 100;
+            percentage = Math.max(0, Math.min(100, percentage));
+
+            // Aggiorna UI Progress
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `${percentage.toFixed(0)}%`;
+
+            // Aggiorna UI Contatore Miliardi
+            const currentBillions = (percentage / 100) * 1000;
+            // Mostra decimali solo all'inizio per dare senso di movimento
+            const formattedValue = currentBillions < 100 
+                ? currentBillions.toFixed(1) 
+                : Math.floor(currentBillions).toLocaleString('it-IT');
+            valueCounter.textContent = formattedValue;
+
+            isScrolling = false;
+        }
+
+        // Loop scroll ottimizzato
+        window.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                window.requestAnimationFrame(onScroll);
+                isScrolling = true;
+            }
+        }, { passive: true });
+    </script>
+</body>
+</html>
