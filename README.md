@@ -12,4 +12,4 @@ Il progetto è stato realizzato utilizzando una combinazione di tecnologie front
 * **Tailwind CSS:** Utilizzato come utility-first framework per uno styling rapido, responsivo e altamente personalizzabile.
 * **JavaScript (Vanilla):** Motore di interazione responsabile della logica di calcolo dello scroll, dell'aggiornamento dinamico del progresso (progress bar e contatore) e della gestione del posizionamento dei marcatori (*markers*) di confronto.
 
-* Puoi visualizzare la visual story qui: https://salvatore-tramontano.github.io/musk-mille-miliardi-scroll/
+Puoi visualizzare la visual story qui: https://salvatore-tramontano.github.io/musk-mille-miliardi-scroll/
